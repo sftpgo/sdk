@@ -75,15 +75,6 @@ func (p FilesystemProvider) ShortInfo() string {
 	return ""
 }
 
-// ListProviders returns a list of available FilesystemProviders.
-func ListProviders() []FilesystemProvider {
-	return []FilesystemProvider{
-		LocalFilesystemProvider, S3FilesystemProvider,
-		GCSFilesystemProvider, AzureBlobFilesystemProvider,
-		CryptedFilesystemProvider, SFTPFilesystemProvider,
-	}
-}
-
 // BaseS3FsConfig defines the base configuration for S3 based filesystems
 type BaseS3FsConfig struct {
 	Bucket string `json:"bucket,omitempty"`

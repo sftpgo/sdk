@@ -1,4 +1,4 @@
-// Package auth defines the implementation for authentication plugins.
+// Package auth defines the interface and the GRPC implementation for authentication plugins.
 // Authentication plugins allow to authenticate external users
 package auth
 

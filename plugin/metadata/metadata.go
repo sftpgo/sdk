@@ -1,3 +1,6 @@
+// Package metadata defines the interface and the GRPC implementation for metadata plugins.
+// Metadata plugins allow to support metadata, such as modification times,
+// for cloud storage backends
 package metadata
 
 import (

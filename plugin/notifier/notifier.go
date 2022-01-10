@@ -1,4 +1,4 @@
-// Package notifier defines the implementation for event notifier plugins.
+// Package notifier defines the interface and the GRPC implementation for event notifier plugins.
 // Notifier plugins allow to receive notifications for supported filesystem
 // events such as file uploads, downloads etc. and provider events such as
 // objects add, update, delete.

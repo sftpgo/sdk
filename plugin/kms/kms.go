@@ -1,4 +1,4 @@
-// Package kms defines the implementation for kms plugins.
+// Package kms defines the interface and the GRPC implementation for kms plugins.
 // KMS plugins allow to encrypt/decrypt sensitive data.
 package kms
 

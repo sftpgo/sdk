@@ -1,4 +1,4 @@
-// Package eventsearcher defines the implementation for events search plugins.
+// Package eventsearcher defines the interface and the GRPC implementation for events search plugins.
 // Events search plugins allow to search for filesystem and provider events.
 package eventsearcher
 
