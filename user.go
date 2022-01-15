@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"path"
 	"strings"
 
 	"github.com/sftpgo/sdk/kms"
@@ -16,6 +17,16 @@ const (
 	WebClientInfoChangeDisabled       = "info-change-disabled"
 	WebClientSharesDisabled           = "shares-disabled"
 	WebClientPasswordResetDisabled    = "password-reset-disabled"
+)
+
+const (
+	// DenyPolicyDefault means that denied files matching the filters are visible in directory
+	// listing but cannot be uploaded/downloaded/overwritten/renamed
+	DenyPolicyDefault = iota
+	// DenyPolicyHide applies the same restrictions as DenyPolicyDefault and denied files/directories
+	// matching the filters will also be hidden in directory listing.
+	// This mode may cause performance issues for large directories
+	DenyPolicyHide
 )
 
 var (
@@ -53,9 +64,6 @@ type DirectoryPermissions struct {
 }
 
 // PatternsFilter defines filters based on shell like patterns.
-// These restrictions do not apply to files listing for performance reasons, so
-// a denied file cannot be downloaded/overwritten/renamed but will still be
-// in the list of files.
 // System commands such as Git and rsync interacts with the filesystem directly
 // and they are not aware about these restrictions so they are not allowed
 // inside paths with extensions filters
@@ -65,12 +73,14 @@ type PatternsFilter struct {
 	// For example if filters are defined for the paths "/" and "/sub" then the
 	// filters for "/" are applied for any file outside the "/sub" directory
 	Path string `json:"path"`
-	// files with these, case insensitive, patterns are allowed.
+	// files/dir with these, case insensitive, patterns are allowed.
 	// Denied file patterns are evaluated before the allowed ones
 	AllowedPatterns []string `json:"allowed_patterns,omitempty"`
-	// files with these, case insensitive, patterns are not allowed.
+	// files/dir with these, case insensitive, patterns are not allowed.
 	// Denied file patterns are evaluated before the allowed ones
 	DeniedPatterns []string `json:"denied_patterns,omitempty"`
+	// Deny policy
+	DenyPolicy int `json:"deny_policy,omitempty"`
 }
 
 // GetCommaSeparatedPatterns returns the first non empty patterns list comma separated
@@ -89,6 +99,27 @@ func (p *PatternsFilter) IsDenied() bool {
 // IsAllowed returns true if the patterns has one or more allowed patterns
 func (p *PatternsFilter) IsAllowed() bool {
 	return len(p.AllowedPatterns) > 0
+}
+
+// CheckAllowed returns true if the specified item is allowed
+func (p *PatternsFilter) CheckAllowed(item string) bool {
+	if p.Path != "" {
+		toMatch := strings.ToLower(item)
+		for _, denied := range p.DeniedPatterns {
+			matched, err := path.Match(denied, toMatch)
+			if err != nil || matched {
+				return false
+			}
+		}
+		for _, allowed := range p.AllowedPatterns {
+			matched, err := path.Match(allowed, toMatch)
+			if err == nil && matched {
+				return true
+			}
+		}
+		return len(p.AllowedPatterns) == 0
+	}
+	return true
 }
 
 // HooksFilter defines user specific overrides for global hooks
