@@ -167,6 +167,27 @@ func (l *BandwidthLimit) GetSourcesAsString() string {
 	return strings.Join(l.Sources, ",")
 }
 
+// DataTransferLimit defines a per-source data transfer limits
+type DataTransferLimit struct {
+	// Source networks in CIDR notation as defined in RFC 4632 and RFC 4291
+	// for example "192.0.2.0/24" or "2001:db8::/32". The limit applies if the
+	// defined networks contain the client IP
+	Sources []string `json:"sources"`
+	// Maximum data transfer allowed for uploads as MB. 0 means no limit.
+	UploadDataTransfer int64 `json:"upload_data_transfer"`
+	// Maximum data transfer allowed for downloads as MB. 0 means no limit.
+	DownloadDataTransfer int64 `json:"download_data_transfer"`
+	// Maximum total data transfer as MB. 0 means unlimited.
+	// You can set a total data transfer instead of the individual values
+	// for uploads and downloads
+	TotalDataTransfer int64 `json:"total_data_transfer"`
+}
+
+// GetSourcesAsString returns the sources as comma separated string
+func (l *DataTransferLimit) GetSourcesAsString() string {
+	return strings.Join(l.Sources, ",")
+}
+
 // BaseUserFilters defines additional restrictions for a user
 type BaseUserFilters struct {
 	// only clients connecting from these IP/Mask are allowed.
@@ -210,6 +231,8 @@ type BaseUserFilters struct {
 	UserType string `json:"user_type,omitempty"`
 	// Per-source bandwidth limits
 	BandwidthLimits []BandwidthLimit `json:"bandwidth_limits,omitempty"`
+	// Per-source data transfer limits
+	DataTransferLimits []DataTransferLimit `json:"data_transfer_limits,omitempty"`
 }
 
 // UserFilters defines additional restrictions for a user
@@ -269,6 +292,20 @@ type BaseUser struct {
 	// Maximum download bandwidth as KB/s, 0 means unlimited.
 	// This is the default if no per-source limit match
 	DownloadBandwidth int64 `json:"download_bandwidth,omitempty"`
+	// Maximum data transfer allowed for uploads as MB. 0 means no limit.
+	// You can periodically reset the data related transfer fields for example
+	// each month
+	UploadDataTransfer int64 `json:"upload_data_transfer"`
+	// Maximum data transfer allowed for downloads as MB. 0 means no limit.
+	DownloadDataTransfer int64 `json:"download_data_transfer"`
+	// Maximum total data transfer as MB. 0 means unlimited.
+	// You can set a total data transfer instead of the individual values
+	// for uploads and downloads
+	TotalDataTransfer int64 `json:"total_data_transfer"`
+	// Uploaded size, as bytes, since the last reset
+	UsedUploadDataTransfer int64 `json:"used_upload_data_transfer,omitempty"`
+	// Downloaded size, as bytes, since the last reset
+	UsedDownloadDataTransfer int64 `json:"used_download_data_transfer,omitempty"`
 	// Last login as unix timestamp in milliseconds
 	LastLogin int64 `json:"last_login,omitempty"`
 	// Creation time as unix timestamp in milliseconds. It will be 0 for admins created before v2.2.0
