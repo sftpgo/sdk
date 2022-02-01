@@ -107,9 +107,12 @@ type BaseS3FsConfig struct {
 	// and if this value is set to zero, the default value (5MB) for the AWS SDK will be used.
 	// The minimum allowed value is 5. Ignored for partial downloads.
 	DownloadPartSize int64 `json:"download_part_size,omitempty"`
+	// UploadPartMaxTime defines the maximum time allowed, in seconds, to upload a single chunk.
+	// 0 means no timeout.
+	UploadPartMaxTime int `json:"upload_part_max_time,omitempty"`
 	// How many parts are downloaded in parallel. Ignored for partial downloads.
 	DownloadConcurrency int `json:"download_concurrency,omitempty"`
-	// DownloadPartMaxTime defines the maximum time allowed, in seconds, to download a single chunk (5MB).
+	// DownloadPartMaxTime defines the maximum time allowed, in seconds, to download a single chunk.
 	// 0 means no timeout. Ignored for partial downloads.
 	DownloadPartMaxTime int `json:"download_part_max_time,omitempty"`
 	// Set this to `true` to force the request to use path-style addressing,
