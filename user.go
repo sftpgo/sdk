@@ -17,6 +17,7 @@ const (
 	WebClientInfoChangeDisabled       = "info-change-disabled"
 	WebClientSharesDisabled           = "shares-disabled"
 	WebClientPasswordResetDisabled    = "password-reset-disabled"
+	WebClientShareNoPasswordDisabled  = "shares-without-password-disabled"
 )
 
 const (
@@ -33,7 +34,7 @@ var (
 	// WebClientOptions defines the available options for the web client interface/user REST API
 	WebClientOptions = []string{WebClientWriteDisabled, WebClientPasswordChangeDisabled, WebClientPasswordResetDisabled,
 		WebClientPubKeyChangeDisabled, WebClientMFADisabled, WebClientAPIKeyAuthChangeDisabled, WebClientInfoChangeDisabled,
-		WebClientSharesDisabled}
+		WebClientSharesDisabled, WebClientShareNoPasswordDisabled}
 	// UserTypes defines the supported user type hints for auth plugins
 	UserTypes = []string{string(UserTypeLDAP), string(UserTypeOS)}
 )
