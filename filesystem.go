@@ -101,7 +101,7 @@ type BaseS3FsConfig struct {
 	// of the last parts to S3 after it ends the file upload to SFTPGo, and it may time out.
 	// Keep this in mind if you customize these parameters.
 	UploadPartSize int64 `json:"upload_part_size,omitempty"`
-	// How many parts are uploaded in parallel
+	// How many parts are uploaded in parallel. 0 means the default (5)
 	UploadConcurrency int `json:"upload_concurrency,omitempty"`
 	// The buffer size (in MB) to use for multipart downloads. The minimum allowed part size is 5MB,
 	// and if this value is set to zero, the default value (5MB) for the AWS SDK will be used.
@@ -110,7 +110,7 @@ type BaseS3FsConfig struct {
 	// UploadPartMaxTime defines the maximum time allowed, in seconds, to upload a single chunk.
 	// 0 means no timeout.
 	UploadPartMaxTime int `json:"upload_part_max_time,omitempty"`
-	// How many parts are downloaded in parallel. Ignored for partial downloads.
+	// How many parts are downloaded in parallel.  0 means the default (5). Ignored for partial downloads.
 	DownloadConcurrency int `json:"download_concurrency,omitempty"`
 	// DownloadPartMaxTime defines the maximum time allowed, in seconds, to download a single chunk.
 	// 0 means no timeout. Ignored for partial downloads.
@@ -171,15 +171,20 @@ type BaseAzBlobFsConfig struct {
 	// If empty the whole bucket contents will be available
 	KeyPrefix string `json:"key_prefix,omitempty"`
 	// The buffer size (in MB) to use for multipart uploads.
-	// If this value is set to zero, the default value (1MB) for the Azure SDK will be used.
+	// If this value is set to zero, the default value (5MB) will be used.
 	// Please note that if the upload bandwidth between the SFTPGo client and SFTPGo server is
 	// greater than the upload bandwidth between SFTPGo and Azure then the SFTP client have
 	// to wait for the upload of the last parts to Azure after it ends the file upload to SFTPGo,
 	// and it may time out.
 	// Keep this in mind if you customize these parameters.
 	UploadPartSize int64 `json:"upload_part_size,omitempty"`
-	// How many parts are uploaded in parallel
+	// How many parts are uploaded in parallel. Default: 5
 	UploadConcurrency int `json:"upload_concurrency,omitempty"`
+	// The buffer size (in MB) to use for multipart downloads.
+	// If this value is set to zero, the default value (5MB) will be used.
+	DownloadPartSize int64 `json:"download_part_size,omitempty"`
+	// How many parts are downloaded in parallel.  0 means the default (5)
+	DownloadConcurrency int `json:"download_concurrency,omitempty"`
 	// Set to true if you use an Azure emulator such as Azurite
 	UseEmulator bool `json:"use_emulator,omitempty"`
 	// Blob Access Tier
