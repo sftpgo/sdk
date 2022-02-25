@@ -234,6 +234,9 @@ type BaseUserFilters struct {
 	BandwidthLimits []BandwidthLimit `json:"bandwidth_limits,omitempty"`
 	// Per-source data transfer limits
 	DataTransferLimits []DataTransferLimit `json:"data_transfer_limits,omitempty"`
+	// Defines the cache time, in seconds, for users authenticated using
+	// an external auth hook. 0 means no cache
+	ExternalAuthCacheTime int64 `json:"external_auth_cache_time,omitempty"`
 }
 
 // UserFilters defines additional restrictions for a user
