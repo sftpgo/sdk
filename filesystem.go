@@ -88,6 +88,8 @@ type BaseS3FsConfig struct {
 	Region       string `json:"region,omitempty"`
 	AccessKey    string `json:"access_key,omitempty"`
 	SessionToken string `json:"session_token,omitempty"`
+	// IAM Role ARN to assume
+	RoleARN      string `json:"role_arn,omitempty"`
 	Endpoint     string `json:"endpoint,omitempty"`
 	StorageClass string `json:"storage_class,omitempty"`
 	// The canned ACL to apply to uploaded objects. Leave empty to use the default ACL.
