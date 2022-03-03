@@ -237,6 +237,10 @@ type BaseUserFilters struct {
 	// Defines the cache time, in seconds, for users authenticated using
 	// an external auth hook. 0 means no cache
 	ExternalAuthCacheTime int64 `json:"external_auth_cache_time,omitempty"`
+	// Specifies an alternate starting directory. If not set, the default is "/".
+	// This option is supported for SFTP/SCP, FTP and HTTP (WebClient/REST API) protocols.
+	// Relative paths will use this directory as base
+	StartDirectory string `json:"start_directory,omitempty"`
 }
 
 // UserFilters defines additional restrictions for a user
