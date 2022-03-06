@@ -241,6 +241,8 @@ type BaseUserFilters struct {
 	// This option is supported for SFTP/SCP, FTP and HTTP (WebClient/REST API) protocols.
 	// Relative paths will use this directory as base
 	StartDirectory string `json:"start_directory,omitempty"`
+	// TwoFactorAuthProtocols defines protocols that require two factor authentication
+	TwoFactorAuthProtocols []string `json:"2fa_protocols,omitempty"`
 }
 
 // UserFilters defines additional restrictions for a user
