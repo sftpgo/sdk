@@ -1,0 +1,14 @@
+syntax = "proto3";
+package proto;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "plugin/ipfilter/proto";
+
+message CheckIPRequest {
+    string ip = 1;
+}
+
+service IPFilter {
+    rpc CheckIP(CheckIPRequest) returns (google.protobuf.Empty);
+}

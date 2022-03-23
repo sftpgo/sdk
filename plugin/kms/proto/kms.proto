@@ -1,7 +1,7 @@
 syntax = "proto3";
 package proto;
 
-option go_package = "sdk/plugin/kms/proto";
+option go_package = "plugin/kms/proto";
 
 message EncryptRequest {
     string payload = 1;

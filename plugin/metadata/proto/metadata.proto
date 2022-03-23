@@ -3,7 +3,7 @@ package proto;
 
 import "google/protobuf/empty.proto";
 
-option go_package = "sdk/plugin/metadata/proto";
+option go_package = "plugin/metadata/proto";
 
 message SetModificationTimeRequest {
     string storage_id = 1;
