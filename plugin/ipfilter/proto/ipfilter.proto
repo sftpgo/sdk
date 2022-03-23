@@ -11,4 +11,5 @@ message CheckIPRequest {
 
 service IPFilter {
     rpc CheckIP(CheckIPRequest) returns (google.protobuf.Empty);
+    rpc Reload(google.protobuf.Empty) returns (google.protobuf.Empty);
 }

@@ -81,13 +81,17 @@ var file_ipfilter_proto_ipfilter_proto_rawDesc = []byte{
 	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x65, 0x6d, 0x70, 0x74, 0x79, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x22, 0x20, 0x0a, 0x0e, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x49, 0x50, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x02, 0x69, 0x70, 0x32, 0x44, 0x0a, 0x08, 0x49, 0x50, 0x46, 0x69, 0x6c, 0x74, 0x65,
+	0x09, 0x52, 0x02, 0x69, 0x70, 0x32, 0x7e, 0x0a, 0x08, 0x49, 0x50, 0x46, 0x69, 0x6c, 0x74, 0x65,
 	0x72, 0x12, 0x38, 0x0a, 0x07, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x49, 0x50, 0x12, 0x15, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x43, 0x68, 0x65, 0x63, 0x6b, 0x49, 0x50, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x42, 0x17, 0x5a, 0x15, 0x70,
-	0x6c, 0x75, 0x67, 0x69, 0x6e, 0x2f, 0x69, 0x70, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x2f, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x12, 0x38, 0x0a, 0x06, 0x52,
+	0x65, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x16, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x45, 0x6d, 0x70, 0x74, 0x79, 0x42, 0x17, 0x5a, 0x15, 0x70, 0x6c, 0x75, 0x67, 0x69, 0x6e, 0x2f,
+	0x69, 0x70, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -109,9 +113,11 @@ var file_ipfilter_proto_ipfilter_proto_goTypes = []interface{}{
 }
 var file_ipfilter_proto_ipfilter_proto_depIdxs = []int32{
 	0, // 0: proto.IPFilter.CheckIP:input_type -> proto.CheckIPRequest
-	1, // 1: proto.IPFilter.CheckIP:output_type -> google.protobuf.Empty
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	1, // 1: proto.IPFilter.Reload:input_type -> google.protobuf.Empty
+	1, // 2: proto.IPFilter.CheckIP:output_type -> google.protobuf.Empty
+	1, // 3: proto.IPFilter.Reload:output_type -> google.protobuf.Empty
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -169,6 +175,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type IPFilterClient interface {
 	CheckIP(ctx context.Context, in *CheckIPRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Reload(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type iPFilterClient struct {
@@ -188,9 +195,19 @@ func (c *iPFilterClient) CheckIP(ctx context.Context, in *CheckIPRequest, opts .
 	return out, nil
 }
 
+func (c *iPFilterClient) Reload(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/proto.IPFilter/Reload", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IPFilterServer is the server API for IPFilter service.
 type IPFilterServer interface {
 	CheckIP(context.Context, *CheckIPRequest) (*emptypb.Empty, error)
+	Reload(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 }
 
 // UnimplementedIPFilterServer can be embedded to have forward compatible implementations.
@@ -199,6 +216,9 @@ type UnimplementedIPFilterServer struct {
 
 func (*UnimplementedIPFilterServer) CheckIP(context.Context, *CheckIPRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckIP not implemented")
+}
+func (*UnimplementedIPFilterServer) Reload(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Reload not implemented")
 }
 
 func RegisterIPFilterServer(s *grpc.Server, srv IPFilterServer) {
@@ -223,6 +243,24 @@ func _IPFilter_CheckIP_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IPFilter_Reload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IPFilterServer).Reload(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.IPFilter/Reload",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IPFilterServer).Reload(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _IPFilter_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "proto.IPFilter",
 	HandlerType: (*IPFilterServer)(nil),
@@ -230,6 +268,10 @@ var _IPFilter_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CheckIP",
 			Handler:    _IPFilter_CheckIP_Handler,
+		},
+		{
+			MethodName: "Reload",
+			Handler:    _IPFilter_Reload_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -29,6 +29,15 @@ func (c *GRPCClient) CheckIP(ip string) error {
 	return err
 }
 
+// Reload instructs the filter to reload its configuration
+func (c *GRPCClient) Reload() error {
+	ctx, cancel := context.WithTimeout(context.Background(), rpcTimeout)
+	defer cancel()
+
+	_, err := c.client.Reload(ctx, &emptypb.Empty{})
+	return err
+}
+
 // GRPCServer defines the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
 	Impl Filter
@@ -37,6 +46,13 @@ type GRPCServer struct {
 // CheckIP implements the server side check IP method
 func (s *GRPCServer) CheckIP(ctx context.Context, req *proto.CheckIPRequest) (*emptypb.Empty, error) {
 	err := s.Impl.CheckIP(req.Ip)
+
+	return &emptypb.Empty{}, err
+}
+
+// Reload implements the server side reload method
+func (s *GRPCServer) Reload(ctx context.Context, req *emptypb.Empty) (*emptypb.Empty, error) {
+	err := s.Impl.Reload()
 
 	return &emptypb.Empty{}, err
 }

@@ -1,5 +1,5 @@
 // Package ipfilter defines the interface and the GRPC implementation for IP filter plugins.
-// IP filter plugins allow to allow/deny access based on the client IP.
+// IP filter plugins allow to allow/deny access based on the IP.
 package ipfilter
 
 import (
@@ -31,6 +31,7 @@ var PluginMap = map[string]plugin.Plugin{
 // Filter defines the interface for ipfilter plugins
 type Filter interface {
 	CheckIP(ip string) error
+	Reload() error
 }
 
 // Plugin defines the implementation to serve/connect to a notifier plugin
