@@ -84,10 +84,9 @@ type BaseS3FsConfig struct {
 	// folder. The prefix, if not empty, must not start with "/" and must
 	// end with "/".
 	// If empty the whole bucket contents will be available
-	KeyPrefix    string `json:"key_prefix,omitempty"`
-	Region       string `json:"region,omitempty"`
-	AccessKey    string `json:"access_key,omitempty"`
-	SessionToken string `json:"session_token,omitempty"`
+	KeyPrefix string `json:"key_prefix,omitempty"`
+	Region    string `json:"region,omitempty"`
+	AccessKey string `json:"access_key,omitempty"`
 	// IAM Role ARN to assume
 	RoleARN      string `json:"role_arn,omitempty"`
 	Endpoint     string `json:"endpoint,omitempty"`
