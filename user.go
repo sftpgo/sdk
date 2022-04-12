@@ -326,6 +326,11 @@ type BaseUser struct {
 	Description string `json:"description,omitempty"`
 	// free form text field for external systems
 	AdditionalInfo string `json:"additional_info,omitempty"`
+	// This field is passed to the pre-login hook if custom OIDC fields have been configured.
+	// Field values can be of any type (this is a free form object) and depend on the type
+	// of the configured OIDC fields.
+	// This fields are never saved or returned in anything other than the pre-login hook
+	OIDCCustomFields *map[string]interface{} `json:"oidc_custom_fields,omitempty"`
 }
 
 // User defines a SFTPGo user
