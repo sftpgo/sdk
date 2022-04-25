@@ -245,6 +245,30 @@ type BaseUserFilters struct {
 	TwoFactorAuthProtocols []string `json:"2fa_protocols,omitempty"`
 }
 
+// GetFlatFilePatterns returns file patterns as flat list
+// duplicating a path if it has both allowed and denied patterns
+func (f *BaseUserFilters) GetFlatFilePatterns() []PatternsFilter {
+	result := make([]PatternsFilter, 0, len(f.FilePatterns))
+
+	for _, pattern := range f.FilePatterns {
+		if len(pattern.AllowedPatterns) > 0 {
+			result = append(result, PatternsFilter{
+				Path:            pattern.Path,
+				AllowedPatterns: pattern.AllowedPatterns,
+				DenyPolicy:      pattern.DenyPolicy,
+			})
+		}
+		if len(pattern.DeniedPatterns) > 0 {
+			result = append(result, PatternsFilter{
+				Path:           pattern.Path,
+				DeniedPatterns: pattern.DeniedPatterns,
+				DenyPolicy:     pattern.DenyPolicy,
+			})
+		}
+	}
+	return result
+}
+
 // UserFilters defines additional restrictions for a user
 // TODO: rename to UserOptions in v3
 type UserFilters struct {
@@ -288,7 +312,7 @@ type BaseUser struct {
 	QuotaSize int64 `json:"quota_size"`
 	// Maximum number of files allowed. 0 means unlimited
 	QuotaFiles int `json:"quota_files"`
-	// List of the granted permissions
+	// List of permissions granted per-directory
 	Permissions map[string][]string `json:"permissions"`
 	// Used quota as bytes
 	UsedQuotaSize int64 `json:"used_quota_size,omitempty"`
@@ -326,6 +350,8 @@ type BaseUser struct {
 	Description string `json:"description,omitempty"`
 	// free form text field for external systems
 	AdditionalInfo string `json:"additional_info,omitempty"`
+	// groups associated with this user
+	Groups []GroupMapping `json:"groups,omitempty"`
 	// This field is passed to the pre-login hook if custom OIDC fields have been configured.
 	// Field values can be of any type (this is a free form object) and depend on the type
 	// of the configured OIDC fields.

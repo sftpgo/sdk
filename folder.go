@@ -15,6 +15,8 @@ type BaseVirtualFolder struct {
 	LastQuotaUpdate int64 `json:"last_quota_update"`
 	// list of usernames associated with this virtual folder
 	Users []string `json:"users,omitempty"`
+	// list of group names associated with this virtual folder
+	Groups []string `json:"groups,omitempty"`
 	// Filesystem configuration details
 	FsConfig Filesystem `json:"filesystem"`
 }
