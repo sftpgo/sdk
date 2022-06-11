@@ -13,6 +13,7 @@ const (
 	AzureBlobFilesystemProvider                           // Azure Blob Storage
 	CryptedFilesystemProvider                             // Local encrypted
 	SFTPFilesystemProvider                                // SFTP
+	HTTPFilesystemProvider                                // HTTP
 )
 
 // GetProviderByName returns the FilesystemProvider matching a given name
@@ -31,6 +32,8 @@ func GetProviderByName(name string) FilesystemProvider {
 		return CryptedFilesystemProvider
 	case "5", "sftpfs":
 		return SFTPFilesystemProvider
+	case "6", "httpfs":
+		return HTTPFilesystemProvider
 	}
 
 	// TODO think about returning an error value instead of silently defaulting to LocalFilesystemProvider
@@ -52,6 +55,8 @@ func (p FilesystemProvider) Name() string {
 		return "cryptfs"
 	case SFTPFilesystemProvider:
 		return "sftpfs"
+	case HTTPFilesystemProvider:
+		return "httpfs"
 	}
 	return "" // let's not claim to be
 }
@@ -71,6 +76,8 @@ func (p FilesystemProvider) ShortInfo() string {
 		return "Local encrypted"
 	case SFTPFilesystemProvider:
 		return "SFTP"
+	case HTTPFilesystemProvider:
+		return "HTTP"
 	}
 	return ""
 }
@@ -234,6 +241,26 @@ type SFTPFsConfig struct {
 	PrivateKey kms.BaseSecret `json:"private_key,omitempty"`
 }
 
+// BaseHTTPFsConfig defines the base configuration for HTTP based filesystem
+type BaseHTTPFsConfig struct {
+	// HTTP/S endpoint URL. SFTPGo will use this URL as base, for example for the
+	// "stat" API, SFTPGo will add "/stat/{name}"
+	Endpoint string `json:"endpoint,omitempty"`
+	Username string `json:"username,omitempty"`
+	// if enabled the HTTP client accepts any TLS certificate presented by
+	// the server and any host name in that certificate.
+	// In this mode, TLS is susceptible to man-in-the-middle attacks.
+	// This should be used only for testing.
+	SkipTLSVerify bool `json:"skip_tls_verify,omitempty"`
+}
+
+// HTTPFsConfig defines the configuration for HTTP based filesystem
+type HTTPFsConfig struct {
+	BaseHTTPFsConfig
+	Password kms.BaseSecret `json:"password,omitempty"`
+	APIKey   kms.BaseSecret `json:"api_key,omitempty"`
+}
+
 // Filesystem defines filesystem details
 type Filesystem struct {
 	Provider     FilesystemProvider `json:"provider"`
@@ -242,4 +269,5 @@ type Filesystem struct {
 	AzBlobConfig AzBlobFsConfig     `json:"azblobconfig,omitempty"`
 	CryptConfig  CryptFsConfig      `json:"cryptconfig,omitempty"`
 	SFTPConfig   SFTPFsConfig       `json:"sftpconfig,omitempty"`
+	HTTPConfig   HTTPFsConfig       `json:"httpconfig,omitempty"`
 }
