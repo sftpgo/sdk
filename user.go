@@ -243,6 +243,12 @@ type BaseUserFilters struct {
 	StartDirectory string `json:"start_directory,omitempty"`
 	// TwoFactorAuthProtocols defines protocols that require two factor authentication
 	TwoFactorAuthProtocols []string `json:"2fa_protocols,omitempty"`
+	// Define the FTP security mode. Set to 1 to require TLS for both data and control
+	// connection. This setting is useful if you want to allow both encrypted and plain text
+	// FTP sessions globally and then you want to require encrypted sessions on a per-user
+	// basis.
+	// It has no effect if TLS is already required for all users in the configuration file.
+	FTPSecurity int `json:"ftp_security,omitempty"`
 }
 
 // GetFlatFilePatterns returns file patterns as flat list
