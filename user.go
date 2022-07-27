@@ -249,6 +249,10 @@ type BaseUserFilters struct {
 	// basis.
 	// It has no effect if TLS is already required for all users in the configuration file.
 	FTPSecurity int `json:"ftp_security,omitempty"`
+	// If enabled the user can login with any password or no password at all.
+	// Anonymous users are supported for FTP and WebDAV protocols and
+	// permissions will be automatically set to "list" and "download" (read only)
+	IsAnonymous bool `json:"is_anonymous,omitempty"`
 }
 
 // GetFlatFilePatterns returns file patterns as flat list
