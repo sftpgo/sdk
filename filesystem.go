@@ -232,6 +232,12 @@ type BaseSFTPFsConfig struct {
 	// cannot be opened for both reading and writing at the same time
 	// 0 means disabled.
 	BufferSize int64 `json:"buffer_size,omitempty"`
+	// Defines how to check if this config points to the same
+	// server as another config. By default both the endpoint and
+	// the username must match. 1 means that only the endpoint must match.
+	// If different configs point to the same server the renaming
+	// between the fs configs is allowed.
+	EqualityCheckMode int `json:"equality_check_mode,omitempty"`
 }
 
 // SFTPFsConfig defines the configuration for SFTP based filesystem
@@ -252,6 +258,12 @@ type BaseHTTPFsConfig struct {
 	// In this mode, TLS is susceptible to man-in-the-middle attacks.
 	// This should be used only for testing.
 	SkipTLSVerify bool `json:"skip_tls_verify,omitempty"`
+	// Defines how to check if this config points to the same
+	// server as another config. By default both the endpoint and
+	// the username must match. 1 means that only the endpoint must match.
+	// If different configs point to the same server the renaming
+	// between the fs configs is allowed.
+	EqualityCheckMode int `json:"equality_check_mode,omitempty"`
 }
 
 // HTTPFsConfig defines the configuration for HTTP based filesystem
