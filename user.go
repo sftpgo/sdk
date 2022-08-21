@@ -356,6 +356,10 @@ type BaseUser struct {
 	CreatedAt int64 `json:"created_at"`
 	// last update time as unix timestamp in milliseconds
 	UpdatedAt int64 `json:"updated_at"`
+	// first download time as unix timestamp in milliseconds
+	FirstDownload int64 `json:"first_download,omitempty"`
+	// first upload time as unix timestamp in milliseconds
+	FirstUpload int64 `json:"first_upload,omitempty"`
 	// optional description, for example full name
 	Description string `json:"description,omitempty"`
 	// free form text field for external systems
