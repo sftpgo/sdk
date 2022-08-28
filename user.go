@@ -253,6 +253,9 @@ type BaseUserFilters struct {
 	// Anonymous users are supported for FTP and WebDAV protocols and
 	// permissions will be automatically set to "list" and "download" (read only)
 	IsAnonymous bool `json:"is_anonymous,omitempty"`
+	// Defines the default expiration for newly created shares as number of days.
+	// 0 means no expiration
+	DefaultSharesExpiration int `json:"default_shares_expiration,omitempty"`
 }
 
 // GetFlatFilePatterns returns file patterns as flat list
