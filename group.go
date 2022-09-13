@@ -6,6 +6,8 @@ const (
 	GroupTypePrimary = iota + 1
 	// Secondary group
 	GroupTypeSecondary
+	// Membership only, no settings are inherited from this group type
+	GroupTypeMembership
 )
 
 // BaseGroupUserSettings defines the base settings to apply to users
@@ -60,6 +62,8 @@ type BaseGroup struct {
 	UpdatedAt int64 `json:"updated_at"`
 	// list of usernames associated with this group
 	Users []string `json:"users,omitempty"`
+	// list of admins associated with this group
+	Admins []string `json:"admins,omitempty"`
 }
 
 // Group defines an SFTPGo group.
