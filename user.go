@@ -306,7 +306,7 @@ type BaseUser struct {
 	Email string `json:"email,omitempty"`
 	// Account expiration date as unix timestamp in milliseconds. An expired account cannot login.
 	// 0 means no expiration
-	ExpirationDate int64 `json:"expiration_date"`
+	ExpirationDate int64 `json:"expiration_date,omitempty"`
 	// Password used for password authentication.
 	// For users created using SFTPGo REST API the password is be stored using bcrypt or argon2id hashing algo.
 	// Checking passwords stored with pbkdf2, md5crypt and sha512crypt is supported too.
