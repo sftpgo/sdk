@@ -374,6 +374,8 @@ type BaseUser struct {
 	// of the configured OIDC fields.
 	// This fields are never saved or returned in anything other than the pre-login hook
 	OIDCCustomFields *map[string]interface{} `json:"oidc_custom_fields,omitempty"`
+	// Role name
+	Role string `json:"role,omitempty"`
 }
 
 // User defines a SFTPGo user
