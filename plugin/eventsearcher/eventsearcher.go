@@ -39,6 +39,7 @@ type CommonSearchParams struct {
 	ExcludeIDs     []string
 	Limit          int
 	Order          int
+	Role           string
 }
 
 // FsEventSearch defines the fields for a filesystem event search

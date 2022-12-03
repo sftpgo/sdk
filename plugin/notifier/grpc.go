@@ -41,6 +41,7 @@ func (c *GRPCClient) NotifyFsEvent(event *FsEvent) error {
 		Bucket:            event.Bucket,
 		Endpoint:          event.Endpoint,
 		OpenFlags:         int32(event.OpenFlags),
+		Role:              event.Role,
 	})
 
 	return err
@@ -59,6 +60,7 @@ func (c *GRPCClient) NotifyProviderEvent(event *ProviderEvent) error {
 		Ip:         event.IP,
 		ObjectName: event.ObjectName,
 		ObjectData: event.ObjectData,
+		Role:       event.Role,
 	})
 
 	return err
@@ -88,6 +90,7 @@ func (s *GRPCServer) SendFsEvent(ctx context.Context, req *proto.FsEvent) (*empt
 		Bucket:      req.Bucket,
 		Endpoint:    req.Endpoint,
 		OpenFlags:   int(req.OpenFlags),
+		Role:        req.Role,
 	}
 	err := s.Impl.NotifyFsEvent(event)
 	return &emptypb.Empty{}, err
@@ -102,6 +105,7 @@ func (s *GRPCServer) SendProviderEvent(ctx context.Context, req *proto.ProviderE
 		ObjectName: req.ObjectName,
 		IP:         req.Ip,
 		ObjectData: req.ObjectData,
+		Role:       req.Role,
 		Timestamp:  req.Timestamp,
 	}
 	err := s.Impl.NotifyProviderEvent(event)

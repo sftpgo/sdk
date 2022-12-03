@@ -23,6 +23,7 @@ message FsEventsFilter {
         ASC = 1;
     }
     Order order = 15;
+    string role = 16;
 }
 
 message ProviderEventsFilter {
@@ -41,6 +42,7 @@ message ProviderEventsFilter {
         ASC = 1;
     }
     Order order = 11;
+    string role = 12;
 }
 
 message SearchResponse {

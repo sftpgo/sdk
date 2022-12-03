@@ -49,6 +49,7 @@ type FsEvent struct {
 	SessionID         string `json:"session_id"`
 	Timestamp         int64  `json:"timestamp"`
 	OpenFlags         int    `json:"open_flags,omitempty"`
+	Role              string `json:"role,omitempty"`
 }
 
 // ProviderEvent defines a provider event
@@ -60,6 +61,7 @@ type ProviderEvent struct {
 	IP         string
 	ObjectData []byte
 	Timestamp  int64
+	Role       string
 }
 
 // Notifier defines the interface for notifiers plugins

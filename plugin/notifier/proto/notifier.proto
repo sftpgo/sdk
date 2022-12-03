@@ -23,6 +23,7 @@ message FsEvent {
     string bucket = 15;
     string endpoint = 16;
     int32 open_flags = 17;
+    string role = 18;
 }
 
 message ProviderEvent {
@@ -33,6 +34,7 @@ message ProviderEvent {
     string ip = 5;
     string object_name = 6;
     bytes object_data = 7; // object JSON serialized
+    string role = 8;
 }
 
 service Notifier {

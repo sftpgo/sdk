@@ -37,6 +37,7 @@ func (c *GRPCClient) SearchFsEvents(searchFilters *FsEventSearch) ([]byte, []str
 		Bucket:         searchFilters.Bucket,
 		Endpoint:       searchFilters.Endpoint,
 		Order:          proto.FsEventsFilter_Order(searchFilters.Order),
+		Role:           searchFilters.Role,
 	})
 
 	if err != nil {
@@ -62,6 +63,7 @@ func (c *GRPCClient) SearchProviderEvents(searchFilters *ProviderEventSearch) ([
 		Limit:          int32(searchFilters.Limit),
 		ExcludeIds:     searchFilters.ExcludeIDs,
 		Order:          proto.ProviderEventsFilter_Order(searchFilters.Order),
+		Role:           searchFilters.Role,
 	})
 
 	if err != nil {
@@ -88,6 +90,7 @@ func (s *GRPCServer) SearchFsEvents(ctx context.Context, req *proto.FsEventsFilt
 			Limit:          int(req.Limit),
 			ExcludeIDs:     req.ExcludeIds,
 			Order:          int(req.Order),
+			Role:           req.Role,
 		},
 
 		SSHCmd:     req.SshCmd,
@@ -118,6 +121,7 @@ func (s *GRPCServer) SearchProviderEvents(ctx context.Context, req *proto.Provid
 			Limit:          int(req.Limit),
 			ExcludeIDs:     req.ExcludeIds,
 			Order:          int(req.Order),
+			Role:           req.Role,
 		},
 		ObjectTypes: req.ObjectTypes,
 		ObjectName:  req.ObjectName,
