@@ -43,6 +43,7 @@ message ProviderEventsFilter {
     }
     Order order = 11;
     string role = 12;
+    bool omit_object_data = 13;
 }
 
 message SearchResponse {

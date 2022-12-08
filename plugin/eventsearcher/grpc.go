@@ -64,6 +64,7 @@ func (c *GRPCClient) SearchProviderEvents(searchFilters *ProviderEventSearch) ([
 		ExcludeIds:     searchFilters.ExcludeIDs,
 		Order:          proto.ProviderEventsFilter_Order(searchFilters.Order),
 		Role:           searchFilters.Role,
+		OmitObjectData: searchFilters.OmitObjectData,
 	})
 
 	if err != nil {
@@ -123,8 +124,9 @@ func (s *GRPCServer) SearchProviderEvents(ctx context.Context, req *proto.Provid
 			Order:          int(req.Order),
 			Role:           req.Role,
 		},
-		ObjectTypes: req.ObjectTypes,
-		ObjectName:  req.ObjectName,
+		ObjectTypes:    req.ObjectTypes,
+		ObjectName:     req.ObjectName,
+		OmitObjectData: req.OmitObjectData,
 	})
 
 	return &proto.SearchResponse{

@@ -56,8 +56,9 @@ type FsEventSearch struct {
 // ProviderEventSearch defines the fields for a provider event search
 type ProviderEventSearch struct {
 	CommonSearchParams
-	ObjectName  string
-	ObjectTypes []string
+	ObjectName     string
+	ObjectTypes    []string
+	OmitObjectData bool
 }
 
 // Searcher defines the interface for events search plugins
