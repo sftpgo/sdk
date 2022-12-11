@@ -256,6 +256,8 @@ type BaseUserFilters struct {
 	// Defines the default expiration for newly created shares as number of days.
 	// 0 means no expiration
 	DefaultSharesExpiration int `json:"default_shares_expiration,omitempty"`
+	// The password expires after the defined number of days. 0 means no expiration
+	PasswordExpiration int `json:"password_expiration,omitempty"`
 }
 
 // GetFlatFilePatterns returns file patterns as flat list
@@ -286,6 +288,8 @@ func (f *BaseUserFilters) GetFlatFilePatterns() []PatternsFilter {
 // TODO: rename to UserOptions in v3
 type UserFilters struct {
 	BaseUserFilters
+	// User must change password from WebClient/REST API at next login.
+	RequirePasswordChange bool `json:"require_password_change,omitempty"`
 	// Time-based one time passwords configuration
 	TOTPConfig TOTPConfig `json:"totp_config,omitempty"`
 	// Recovery codes to use if the user loses access to their second factor auth device.
@@ -363,6 +367,8 @@ type BaseUser struct {
 	FirstDownload int64 `json:"first_download,omitempty"`
 	// first upload time as unix timestamp in milliseconds
 	FirstUpload int64 `json:"first_upload,omitempty"`
+	// last password change as unix timestamp in milliseconds
+	LastPasswordChange int64 `json:"last_password_change,omitempty"`
 	// optional description, for example full name
 	Description string `json:"description,omitempty"`
 	// free form text field for external systems
