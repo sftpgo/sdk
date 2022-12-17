@@ -155,6 +155,12 @@ type BaseGCSFsConfig struct {
 	// For more information and available ACLs, refer to the JSON API here:
 	// https://cloud.google.com/storage/docs/access-control/lists#predefined-acl
 	ACL string `json:"acl,omitempty"`
+	// The buffer size (in MB) to use for multipart uploads. The default value is 16MB.
+	// 0 means use the default
+	UploadPartSize int64 `json:"upload_part_size,omitempty"`
+	// UploadPartMaxTime defines the maximum time allowed, in seconds, to upload a single chunk.
+	// The default value is 32. 0 means use the default
+	UploadPartMaxTime int `json:"upload_part_max_time,omitempty"`
 }
 
 // GCSFsConfig defines the configuration for Google Cloud Storage based filesystems
