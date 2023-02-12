@@ -50,6 +50,7 @@ type FsEvent struct {
 	Timestamp         int64  `json:"timestamp"`
 	OpenFlags         int    `json:"open_flags,omitempty"`
 	Role              string `json:"role,omitempty"`
+	Elapsed           int64  `json:"elapsed,omitempty"`
 }
 
 // ProviderEvent defines a provider event

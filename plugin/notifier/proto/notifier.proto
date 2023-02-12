@@ -24,6 +24,7 @@ message FsEvent {
     string endpoint = 16;
     int32 open_flags = 17;
     string role = 18;
+    int64 elapsed = 19;
 }
 
 message ProviderEvent {
