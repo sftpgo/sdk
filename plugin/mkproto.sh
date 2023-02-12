@@ -1,8 +1,8 @@
 #!/bin/bash
 
-protoc notifier/proto/notifier.proto --go_out=plugins=grpc:.. --go_out=../..
-protoc kms/proto/kms.proto --go_out=plugins=grpc:.. --go_out=../..
-protoc auth/proto/auth.proto --go_out=plugins=grpc:.. --go_out=../..
-protoc eventsearcher/proto/search.proto --go_out=plugins=grpc:.. --go_out=../..
-protoc metadata/proto/metadata.proto --go_out=plugins=grpc:.. --go_out=../..
-protoc ipfilter/proto/ipfilter.proto --go_out=plugins=grpc:.. --go_out=../..
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative notifier/proto/notifier.proto
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative kms/proto/kms.proto
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative auth/proto/auth.proto
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative eventsearcher/proto/search.proto
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative metadata/proto/metadata.proto
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative ipfilter/proto/ipfilter.proto
