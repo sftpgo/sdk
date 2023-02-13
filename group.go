@@ -37,6 +37,9 @@ type BaseGroupUserSettings struct {
 	// You can set a total data transfer instead of the individual values
 	// for uploads and downloads
 	TotalDataTransfer int64 `json:"total_data_transfer"`
+	// Defines account expiration in number of days from creation.
+	// 0 means no expiration
+	ExpiresIn int `json:"expires_in,omitempty"`
 	// Additional restrictions
 	Filters BaseUserFilters `json:"filters"`
 }
