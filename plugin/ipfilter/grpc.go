@@ -19,12 +19,13 @@ type GRPCClient struct {
 }
 
 // CheckIP returns an error if the specified IP is not allowed
-func (c *GRPCClient) CheckIP(ip string) error {
+func (c *GRPCClient) CheckIP(ip, protocol string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), rpcTimeout)
 	defer cancel()
 
 	_, err := c.client.CheckIP(ctx, &proto.CheckIPRequest{
-		Ip: ip,
+		Ip:       ip,
+		Protocol: protocol,
 	})
 	return err
 }
@@ -45,7 +46,7 @@ type GRPCServer struct {
 
 // CheckIP implements the server side check IP method
 func (s *GRPCServer) CheckIP(ctx context.Context, req *proto.CheckIPRequest) (*emptypb.Empty, error) {
-	err := s.Impl.CheckIP(req.Ip)
+	err := s.Impl.CheckIP(req.Ip, req.Protocol)
 
 	return &emptypb.Empty{}, err
 }

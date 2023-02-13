@@ -7,6 +7,7 @@ option go_package = "plugin/ipfilter/proto";
 
 message CheckIPRequest {
     string ip = 1;
+    string protocol = 2;
 }
 
 service IPFilter {

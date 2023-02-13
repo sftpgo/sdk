@@ -30,7 +30,7 @@ var PluginMap = map[string]plugin.Plugin{
 
 // Filter defines the interface for ipfilter plugins
 type Filter interface {
-	CheckIP(ip string) error
+	CheckIP(ip, protocol string) error
 	Reload() error
 }
 
