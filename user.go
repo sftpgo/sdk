@@ -258,6 +258,10 @@ type BaseUserFilters struct {
 	DefaultSharesExpiration int `json:"default_shares_expiration,omitempty"`
 	// The password expires after the defined number of days. 0 means no expiration
 	PasswordExpiration int `json:"password_expiration,omitempty"`
+	// PasswordStrength defines the minimum password strength.
+	// 0 means disabled, any password will be accepted. Values in the 50-70
+	// range are suggested for common use cases.
+	PasswordStrength int `json:"password_strength,omitempty"`
 }
 
 // GetFlatFilePatterns returns file patterns as flat list
