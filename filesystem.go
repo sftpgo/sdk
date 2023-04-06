@@ -212,7 +212,7 @@ type BaseAzBlobFsConfig struct {
 	// The buffer size (in MB) to use for multipart downloads.
 	// If this value is set to zero, the default value (5MB) will be used.
 	DownloadPartSize int64 `json:"download_part_size,omitempty"`
-	// How many parts are downloaded in parallel.  0 means the default (5)
+	// How many parts are downloaded in parallel. 0 means the default (5)
 	DownloadConcurrency int `json:"download_concurrency,omitempty"`
 	// Set to true if you use an Azure emulator such as Azurite
 	UseEmulator bool `json:"use_emulator,omitempty"`

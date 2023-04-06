@@ -3,7 +3,7 @@ module github.com/sftpgo/sdk
 go 1.20
 
 require (
-	github.com/hashicorp/go-plugin v1.4.10-0.20230321181155-4b35dc2fedaa
+	github.com/hashicorp/go-plugin v1.4.10-0.20230403150917-e889c1ba1044
 	google.golang.org/grpc v1.54.0
 	google.golang.org/protobuf v1.30.0
 )
@@ -18,7 +18,7 @@ require (
 	github.com/mitchellh/go-testing-interface v1.14.1 // indirect
 	github.com/oklog/run v1.1.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
-	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
-	google.golang.org/genproto v0.0.0-20230331144136-dcfb400f0633 // indirect
+	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
+	google.golang.org/genproto v0.0.0-20230403163135-c38d8f061ccd // indirect
 )

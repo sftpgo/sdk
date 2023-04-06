@@ -333,13 +333,15 @@ type BaseUser struct {
 	// For users created using SFTPGo REST API the password is be stored using bcrypt or argon2id hashing algo.
 	// Checking passwords stored with pbkdf2, md5crypt and sha512crypt is supported too.
 	Password string `json:"password,omitempty"`
-	// PublicKeys used for public key authentication. At least one between password and a public key is mandatory
+	// PublicKeys used for public key authentication.
 	PublicKeys []string `json:"public_keys,omitempty"`
+	// Indicates whether the password is set
+	HasPassword bool `json:"has_password,omitempty"`
 	// The user cannot upload or download files outside this directory. Must be an absolute path
 	HomeDir string `json:"home_dir"`
-	// If sftpgo runs as root system user then the created files and directories will be assigned to this system UID
+	// If SFTPGo runs as root system user then the created files and directories will be assigned to this system UID
 	UID int `json:"uid"`
-	// If sftpgo runs as root system user then the created files and directories will be assigned to this system GID
+	// If SFTPGo runs as root system user then the created files and directories will be assigned to this system GID
 	GID int `json:"gid"`
 	// Maximum concurrent sessions. 0 means unlimited
 	MaxSessions int `json:"max_sessions"`
