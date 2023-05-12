@@ -38,7 +38,18 @@ message ProviderEvent {
     string role = 8;
 }
 
+message LogEvent {
+    int64 timestamp = 1;
+    int32 event = 2;
+    string username = 3;
+    string protocol = 4;
+    string ip = 5;
+    string message = 6;
+    string role = 7;
+}
+
 service Notifier {
     rpc SendFsEvent(FsEvent) returns (google.protobuf.Empty);
     rpc SendProviderEvent(ProviderEvent) returns (google.protobuf.Empty);
+    rpc SendLogEvent(LogEvent) returns (google.protobuf.Empty);
 }

@@ -31,7 +31,7 @@ type GRPCClient struct {
 }
 
 // SearchFsEvents implements the Searcher interface
-func (c *GRPCClient) SearchFsEvents(searchFilters *FsEventSearch) ([]byte, []string, []string, error) {
+func (c *GRPCClient) SearchFsEvents(searchFilters *FsEventSearch) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), rpcTimeout)
 	defer cancel()
 
@@ -46,7 +46,7 @@ func (c *GRPCClient) SearchFsEvents(searchFilters *FsEventSearch) ([]byte, []str
 		InstanceIds:    searchFilters.InstanceIDs,
 		Statuses:       searchFilters.Statuses,
 		Limit:          int32(searchFilters.Limit),
-		ExcludeIds:     searchFilters.ExcludeIDs,
+		FromId:         searchFilters.FromID,
 		FsProvider:     int32(searchFilters.FsProvider),
 		Bucket:         searchFilters.Bucket,
 		Endpoint:       searchFilters.Endpoint,
@@ -55,13 +55,13 @@ func (c *GRPCClient) SearchFsEvents(searchFilters *FsEventSearch) ([]byte, []str
 	})
 
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, err
 	}
-	return resp.Data, resp.SameTsAtStart, resp.SameTsAtEnd, nil
+	return resp.Data, nil
 }
 
 // SearchProviderEvents implements the Searcher interface
-func (c *GRPCClient) SearchProviderEvents(searchFilters *ProviderEventSearch) ([]byte, []string, []string, error) {
+func (c *GRPCClient) SearchProviderEvents(searchFilters *ProviderEventSearch) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), rpcTimeout)
 	defer cancel()
 
@@ -75,16 +75,41 @@ func (c *GRPCClient) SearchProviderEvents(searchFilters *ProviderEventSearch) ([
 		ObjectName:     searchFilters.ObjectName,
 		InstanceIds:    searchFilters.InstanceIDs,
 		Limit:          int32(searchFilters.Limit),
-		ExcludeIds:     searchFilters.ExcludeIDs,
+		FromId:         searchFilters.FromID,
 		Order:          proto.ProviderEventsFilter_Order(searchFilters.Order),
 		Role:           searchFilters.Role,
 		OmitObjectData: searchFilters.OmitObjectData,
 	})
 
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, err
 	}
-	return resp.Data, resp.SameTsAtStart, resp.SameTsAtEnd, nil
+	return resp.Data, nil
+}
+
+// SearchLogEvents implements the Searcher interface
+func (c *GRPCClient) SearchLogEvents(searchFilters *LogEventSearch) ([]byte, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), rpcTimeout)
+	defer cancel()
+
+	resp, err := c.client.SearchLogEvents(ctx, &proto.LogEventsFilter{
+		StartTimestamp: searchFilters.StartTimestamp,
+		EndTimestamp:   searchFilters.EndTimestamp,
+		Events:         searchFilters.Events,
+		Username:       searchFilters.Username,
+		Ip:             searchFilters.IP,
+		Protocols:      searchFilters.Protocols,
+		InstanceIds:    searchFilters.InstanceIDs,
+		Limit:          int32(searchFilters.Limit),
+		FromId:         searchFilters.FromID,
+		Order:          proto.LogEventsFilter_Order(searchFilters.Order),
+		Role:           searchFilters.Role,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return resp.Data, nil
 }
 
 // GRPCServer defines the gRPC server that GRPCClient talks to.
@@ -94,20 +119,19 @@ type GRPCServer struct {
 
 // SearchFsEvents implements the server side fs events search method
 func (s *GRPCServer) SearchFsEvents(ctx context.Context, req *proto.FsEventsFilter) (*proto.SearchResponse, error) {
-	responseData, sameTsAtStart, sameTsAtEnd, err := s.Impl.SearchFsEvents(&FsEventSearch{
+	responseData, err := s.Impl.SearchFsEvents(&FsEventSearch{
 		CommonSearchParams: CommonSearchParams{
 			StartTimestamp: req.StartTimestamp,
 			EndTimestamp:   req.EndTimestamp,
-			Actions:        req.Actions,
 			Username:       req.Username,
 			IP:             req.Ip,
 			InstanceIDs:    req.InstanceIds,
 			Limit:          int(req.Limit),
-			ExcludeIDs:     req.ExcludeIds,
+			FromID:         req.FromId,
 			Order:          int(req.Order),
 			Role:           req.Role,
 		},
-
+		Actions:    req.Actions,
 		SSHCmd:     req.SshCmd,
 		Protocols:  req.Protocols,
 		Statuses:   req.Statuses,
@@ -117,35 +141,54 @@ func (s *GRPCServer) SearchFsEvents(ctx context.Context, req *proto.FsEventsFilt
 	})
 
 	return &proto.SearchResponse{
-		Data:          responseData,
-		SameTsAtStart: sameTsAtStart,
-		SameTsAtEnd:   sameTsAtEnd,
+		Data: responseData,
 	}, err
 }
 
 // SearchProviderEvents implement the server side provider events search method
 func (s *GRPCServer) SearchProviderEvents(ctx context.Context, req *proto.ProviderEventsFilter) (*proto.SearchResponse, error) {
-	responseData, sameTsAtStart, sameTsAtEnd, err := s.Impl.SearchProviderEvents(&ProviderEventSearch{
+	responseData, err := s.Impl.SearchProviderEvents(&ProviderEventSearch{
 		CommonSearchParams: CommonSearchParams{
 			StartTimestamp: req.StartTimestamp,
 			EndTimestamp:   req.EndTimestamp,
-			Actions:        req.Actions,
 			Username:       req.Username,
 			IP:             req.Ip,
 			InstanceIDs:    req.InstanceIds,
 			Limit:          int(req.Limit),
-			ExcludeIDs:     req.ExcludeIds,
+			FromID:         req.FromId,
 			Order:          int(req.Order),
 			Role:           req.Role,
 		},
+		Actions:        req.Actions,
 		ObjectTypes:    req.ObjectTypes,
 		ObjectName:     req.ObjectName,
 		OmitObjectData: req.OmitObjectData,
 	})
 
 	return &proto.SearchResponse{
-		Data:          responseData,
-		SameTsAtStart: sameTsAtStart,
-		SameTsAtEnd:   sameTsAtEnd,
+		Data: responseData,
+	}, err
+}
+
+// SearchLogEvents implement the server side log events search method
+func (s *GRPCServer) SearchLogEvents(ctx context.Context, req *proto.LogEventsFilter) (*proto.SearchResponse, error) {
+	responseData, err := s.Impl.SearchLogEvents(&LogEventSearch{
+		CommonSearchParams: CommonSearchParams{
+			StartTimestamp: req.StartTimestamp,
+			EndTimestamp:   req.EndTimestamp,
+			Username:       req.Username,
+			IP:             req.Ip,
+			InstanceIDs:    req.InstanceIds,
+			Limit:          int(req.Limit),
+			FromID:         req.FromId,
+			Order:          int(req.Order),
+			Role:           req.Role,
+		},
+		Events:    req.Events,
+		Protocols: req.Protocols,
+	})
+
+	return &proto.SearchResponse{
+		Data: responseData,
 	}, err
 }

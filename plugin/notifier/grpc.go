@@ -81,6 +81,24 @@ func (c *GRPCClient) NotifyProviderEvent(event *ProviderEvent) error {
 	return err
 }
 
+// NotifyLogEvent implements the Notifier interface
+func (c *GRPCClient) NotifyLogEvent(event *LogEvent) error {
+	ctx, cancel := context.WithTimeout(context.Background(), rpcTimeout)
+	defer cancel()
+
+	_, err := c.client.SendLogEvent(ctx, &proto.LogEvent{
+		Timestamp: event.Timestamp,
+		Event:     int32(event.Event),
+		Username:  event.Username,
+		Protocol:  event.Protocol,
+		Ip:        event.IP,
+		Message:   event.Message,
+		Role:      event.Role,
+	})
+
+	return err
+}
+
 // GRPCServer defines the gRPC server that GRPCClient talks to.
 type GRPCServer struct {
 	Impl Notifier
@@ -126,5 +144,21 @@ func (s *GRPCServer) SendProviderEvent(ctx context.Context, req *proto.ProviderE
 		Timestamp:  req.Timestamp,
 	}
 	err := s.Impl.NotifyProviderEvent(event)
+	return &emptypb.Empty{}, err
+}
+
+// SendLogEvent implements the serve side provider event notify method
+func (s *GRPCServer) SendLogEvent(ctx context.Context, req *proto.LogEvent) (*emptypb.Empty, error) {
+	event := &LogEvent{
+		Timestamp: req.Timestamp,
+		Event:     LogEventType(req.Event),
+		Protocol:  req.Protocol,
+		Username:  req.Username,
+		IP:        req.Ip,
+		Message:   req.Message,
+		Role:      req.Role,
+	}
+
+	err := s.Impl.NotifyLogEvent(event)
 	return &emptypb.Empty{}, err
 }

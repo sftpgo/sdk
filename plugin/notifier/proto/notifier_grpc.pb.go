@@ -25,6 +25,7 @@ const _ = grpc.SupportPackageIsVersion7
 type NotifierClient interface {
 	SendFsEvent(ctx context.Context, in *FsEvent, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SendProviderEvent(ctx context.Context, in *ProviderEvent, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SendLogEvent(ctx context.Context, in *LogEvent, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type notifierClient struct {
@@ -53,12 +54,22 @@ func (c *notifierClient) SendProviderEvent(ctx context.Context, in *ProviderEven
 	return out, nil
 }
 
+func (c *notifierClient) SendLogEvent(ctx context.Context, in *LogEvent, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/proto.Notifier/SendLogEvent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NotifierServer is the server API for Notifier service.
 // All implementations should embed UnimplementedNotifierServer
 // for forward compatibility
 type NotifierServer interface {
 	SendFsEvent(context.Context, *FsEvent) (*emptypb.Empty, error)
 	SendProviderEvent(context.Context, *ProviderEvent) (*emptypb.Empty, error)
+	SendLogEvent(context.Context, *LogEvent) (*emptypb.Empty, error)
 }
 
 // UnimplementedNotifierServer should be embedded to have forward compatible implementations.
@@ -70,6 +81,9 @@ func (UnimplementedNotifierServer) SendFsEvent(context.Context, *FsEvent) (*empt
 }
 func (UnimplementedNotifierServer) SendProviderEvent(context.Context, *ProviderEvent) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendProviderEvent not implemented")
+}
+func (UnimplementedNotifierServer) SendLogEvent(context.Context, *LogEvent) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendLogEvent not implemented")
 }
 
 // UnsafeNotifierServer may be embedded to opt out of forward compatibility for this service.
@@ -119,6 +133,24 @@ func _Notifier_SendProviderEvent_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Notifier_SendLogEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogEvent)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotifierServer).SendLogEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.Notifier/SendLogEvent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotifierServer).SendLogEvent(ctx, req.(*LogEvent))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Notifier_ServiceDesc is the grpc.ServiceDesc for Notifier service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -133,6 +165,10 @@ var Notifier_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendProviderEvent",
 			Handler:    _Notifier_SendProviderEvent_Handler,
+		},
+		{
+			MethodName: "SendLogEvent",
+			Handler:    _Notifier_SendLogEvent_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

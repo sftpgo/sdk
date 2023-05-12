@@ -14,8 +14,8 @@
 
 // Package notifier defines the interface and the GRPC implementation for event notifier plugins.
 // Notifier plugins allow to receive notifications for supported filesystem
-// events such as file uploads, downloads etc. and provider events such as
-// objects add, update, delete.
+// events such as file uploads, downloads etc., provider events such as
+// objects add, update, delete and log events.
 package notifier
 
 import (
@@ -30,6 +30,16 @@ import (
 const (
 	// PluginName defines the name for a notifier plugin
 	PluginName = "notifier"
+)
+
+// LogEventType is the enumerable for the supported log events
+type LogEventType int
+
+const (
+	LogEventTypeLoginFailed LogEventType = iota + 1
+	LogEventTypeLoginNoUser
+	LogEventTypeNoLoginTried
+	LogEventTypeNotNegotiated
 )
 
 // Handshake is a common handshake that is shared by plugin and host.
@@ -79,10 +89,22 @@ type ProviderEvent struct {
 	Role       string
 }
 
+// LogEvent defines a log event
+type LogEvent struct {
+	Timestamp int64
+	Event     LogEventType
+	Protocol  string
+	Username  string
+	IP        string
+	Message   string
+	Role      string
+}
+
 // Notifier defines the interface for notifiers plugins
 type Notifier interface {
 	NotifyFsEvent(event *FsEvent) error
 	NotifyProviderEvent(event *ProviderEvent) error
+	NotifyLogEvent(event *LogEvent) error
 }
 
 // Plugin defines the implementation to serve/connect to a notifier plugin

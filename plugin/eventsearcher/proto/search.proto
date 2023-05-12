@@ -14,7 +14,7 @@ message FsEventsFilter {
     repeated int32 statuses = 8;
     repeated string instance_ids = 9;
     int32 limit = 10;
-    repeated string exclude_ids = 11;
+    string from_id = 11;
     int32 fs_provider = 12;
     string bucket = 13;
     string endpoint = 14;
@@ -36,7 +36,7 @@ message ProviderEventsFilter {
     string object_name = 7;
     repeated string instance_ids = 8;
     int32 limit = 9;
-    repeated string exclude_ids = 10;
+    string from_id = 10;
     enum Order {
         DESC = 0;
         ASC = 1;
@@ -46,13 +46,30 @@ message ProviderEventsFilter {
     bool omit_object_data = 13;
 }
 
+message LogEventsFilter {
+    int64 start_timestamp = 1;
+    int64 end_timestamp = 2;
+    repeated int32 events = 3;
+    string username = 4;
+    string ip = 5;
+    repeated string protocols = 6;
+    repeated string instance_ids = 7;
+    int32 limit = 8;
+    string from_id = 9;
+    enum Order {
+        DESC = 0;
+        ASC = 1;
+    }
+    Order order = 10;
+    string role = 11;
+}
+
 message SearchResponse {
     bytes data = 1; // JSON serialized response to return
-    repeated string same_ts_at_start = 2;
-    repeated string same_ts_at_end = 3;
 }
 
 service Searcher {
     rpc SearchFsEvents(FsEventsFilter) returns (SearchResponse);
     rpc SearchProviderEvents(ProviderEventsFilter) returns (SearchResponse);
+    rpc SearchLogEvents(LogEventsFilter) returns (SearchResponse);
 }

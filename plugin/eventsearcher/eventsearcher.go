@@ -46,11 +46,10 @@ var PluginMap = map[string]plugin.Plugin{
 type CommonSearchParams struct {
 	StartTimestamp int64
 	EndTimestamp   int64
-	Actions        []string
 	Username       string
 	IP             string
 	InstanceIDs    []string
-	ExcludeIDs     []string
+	FromID         string
 	Limit          int
 	Order          int
 	Role           string
@@ -59,6 +58,7 @@ type CommonSearchParams struct {
 // FsEventSearch defines the fields for a filesystem event search
 type FsEventSearch struct {
 	CommonSearchParams
+	Actions    []string
 	SSHCmd     string
 	Protocols  []string
 	Statuses   []int32
@@ -70,15 +70,24 @@ type FsEventSearch struct {
 // ProviderEventSearch defines the fields for a provider event search
 type ProviderEventSearch struct {
 	CommonSearchParams
+	Actions        []string
 	ObjectName     string
 	ObjectTypes    []string
 	OmitObjectData bool
 }
 
+// LogEventSearch defines the fields for a provider event search
+type LogEventSearch struct {
+	CommonSearchParams
+	Events    []int32
+	Protocols []string
+}
+
 // Searcher defines the interface for events search plugins
 type Searcher interface {
-	SearchFsEvents(searchFilters *FsEventSearch) ([]byte, []string, []string, error)
-	SearchProviderEvents(searchFilters *ProviderEventSearch) ([]byte, []string, []string, error)
+	SearchFsEvents(searchFilters *FsEventSearch) ([]byte, error)
+	SearchProviderEvents(searchFilters *ProviderEventSearch) ([]byte, error)
+	SearchLogEvents(searchFilters *LogEventSearch) ([]byte, error)
 }
 
 // Plugin defines the implementation to serve/connect to a event search plugin

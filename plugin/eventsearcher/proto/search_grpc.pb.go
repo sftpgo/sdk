@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type SearcherClient interface {
 	SearchFsEvents(ctx context.Context, in *FsEventsFilter, opts ...grpc.CallOption) (*SearchResponse, error)
 	SearchProviderEvents(ctx context.Context, in *ProviderEventsFilter, opts ...grpc.CallOption) (*SearchResponse, error)
+	SearchLogEvents(ctx context.Context, in *LogEventsFilter, opts ...grpc.CallOption) (*SearchResponse, error)
 }
 
 type searcherClient struct {
@@ -52,12 +53,22 @@ func (c *searcherClient) SearchProviderEvents(ctx context.Context, in *ProviderE
 	return out, nil
 }
 
+func (c *searcherClient) SearchLogEvents(ctx context.Context, in *LogEventsFilter, opts ...grpc.CallOption) (*SearchResponse, error) {
+	out := new(SearchResponse)
+	err := c.cc.Invoke(ctx, "/proto.Searcher/SearchLogEvents", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SearcherServer is the server API for Searcher service.
 // All implementations should embed UnimplementedSearcherServer
 // for forward compatibility
 type SearcherServer interface {
 	SearchFsEvents(context.Context, *FsEventsFilter) (*SearchResponse, error)
 	SearchProviderEvents(context.Context, *ProviderEventsFilter) (*SearchResponse, error)
+	SearchLogEvents(context.Context, *LogEventsFilter) (*SearchResponse, error)
 }
 
 // UnimplementedSearcherServer should be embedded to have forward compatible implementations.
@@ -69,6 +80,9 @@ func (UnimplementedSearcherServer) SearchFsEvents(context.Context, *FsEventsFilt
 }
 func (UnimplementedSearcherServer) SearchProviderEvents(context.Context, *ProviderEventsFilter) (*SearchResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchProviderEvents not implemented")
+}
+func (UnimplementedSearcherServer) SearchLogEvents(context.Context, *LogEventsFilter) (*SearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchLogEvents not implemented")
 }
 
 // UnsafeSearcherServer may be embedded to opt out of forward compatibility for this service.
@@ -118,6 +132,24 @@ func _Searcher_SearchProviderEvents_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Searcher_SearchLogEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogEventsFilter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SearcherServer).SearchLogEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.Searcher/SearchLogEvents",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SearcherServer).SearchLogEvents(ctx, req.(*LogEventsFilter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Searcher_ServiceDesc is the grpc.ServiceDesc for Searcher service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -132,6 +164,10 @@ var Searcher_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchProviderEvents",
 			Handler:    _Searcher_SearchProviderEvents_Handler,
+		},
+		{
+			MethodName: "SearchLogEvents",
+			Handler:    _Searcher_SearchLogEvents_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
