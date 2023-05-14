@@ -96,6 +96,14 @@ func (p FilesystemProvider) ShortInfo() string {
 	return ""
 }
 
+// OSFsConfig defines the configuration for local filesystem
+type OSFsConfig struct {
+	// Read buffer size as bytes, 0 means no buffering
+	ReadBufferSize int `json:"read_buffer_size,omitempty"`
+	// Write buffer size as bytes, 0 means no buffering
+	WriteBufferSize int `json:"write_buffer_size,omitempty"`
+}
+
 // BaseS3FsConfig defines the base configuration for S3 based filesystems
 type BaseS3FsConfig struct {
 	Bucket string `json:"bucket,omitempty"`
@@ -232,6 +240,7 @@ type AzBlobFsConfig struct {
 
 // CryptFsConfig defines the configuration to store local files as encrypted
 type CryptFsConfig struct {
+	OSFsConfig
 	Passphrase kms.BaseSecret `json:"passphrase,omitempty"`
 }
 
@@ -296,6 +305,7 @@ type HTTPFsConfig struct {
 // Filesystem defines filesystem details
 type Filesystem struct {
 	Provider     FilesystemProvider `json:"provider"`
+	OSConfig     OSFsConfig         `json:"osconfig,omitempty"`
 	S3Config     S3FsConfig         `json:"s3config,omitempty"`
 	GCSConfig    GCSFsConfig        `json:"gcsconfig,omitempty"`
 	AzBlobConfig AzBlobFsConfig     `json:"azblobconfig,omitempty"`
