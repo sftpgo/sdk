@@ -120,16 +120,16 @@ func (p *PatternsFilter) IsAllowed() bool {
 func (p *PatternsFilter) CheckAllowed(item string) bool {
 	if p.Path != "" {
 		toMatch := strings.ToLower(item)
-		for _, denied := range p.DeniedPatterns {
-			matched, err := path.Match(denied, toMatch)
-			if err != nil || matched {
-				return false
-			}
-		}
 		for _, allowed := range p.AllowedPatterns {
 			matched, err := path.Match(allowed, toMatch)
 			if err == nil && matched {
 				return true
+			}
+		}
+		for _, denied := range p.DeniedPatterns {
+			matched, err := path.Match(denied, toMatch)
+			if err != nil || matched {
+				return false
 			}
 		}
 		return len(p.AllowedPatterns) == 0
