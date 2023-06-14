@@ -288,7 +288,7 @@ func (f *BaseUserFilters) GetFlatFilePatterns() []PatternsFilter {
 			result = append(result, PatternsFilter{
 				Path:            pattern.Path,
 				AllowedPatterns: pattern.AllowedPatterns,
-				DenyPolicy:      pattern.DenyPolicy,
+				DenyPolicy:      DenyPolicyDefault,
 			})
 		}
 		if len(pattern.DeniedPatterns) > 0 {
