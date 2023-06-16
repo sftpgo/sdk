@@ -182,27 +182,6 @@ func (l *BandwidthLimit) GetSourcesAsString() string {
 	return strings.Join(l.Sources, ",")
 }
 
-// DataTransferLimit defines a per-source data transfer limits
-type DataTransferLimit struct {
-	// Source networks in CIDR notation as defined in RFC 4632 and RFC 4291
-	// for example "192.0.2.0/24" or "2001:db8::/32". The limit applies if the
-	// defined networks contain the client IP
-	Sources []string `json:"sources"`
-	// Maximum data transfer allowed for uploads as MB. 0 means no limit.
-	UploadDataTransfer int64 `json:"upload_data_transfer"`
-	// Maximum data transfer allowed for downloads as MB. 0 means no limit.
-	DownloadDataTransfer int64 `json:"download_data_transfer"`
-	// Maximum total data transfer as MB. 0 means unlimited.
-	// You can set a total data transfer instead of the individual values
-	// for uploads and downloads
-	TotalDataTransfer int64 `json:"total_data_transfer"`
-}
-
-// GetSourcesAsString returns the sources as comma separated string
-func (l *DataTransferLimit) GetSourcesAsString() string {
-	return strings.Join(l.Sources, ",")
-}
-
 // BaseUserFilters defines additional restrictions for a user
 type BaseUserFilters struct {
 	// only clients connecting from these IP/Mask are allowed.
@@ -246,8 +225,6 @@ type BaseUserFilters struct {
 	UserType string `json:"user_type,omitempty"`
 	// Per-source bandwidth limits
 	BandwidthLimits []BandwidthLimit `json:"bandwidth_limits,omitempty"`
-	// Per-source data transfer limits
-	DataTransferLimits []DataTransferLimit `json:"data_transfer_limits,omitempty"`
 	// Defines the cache time, in seconds, for users authenticated using
 	// an external auth hook. 0 means no cache
 	ExternalAuthCacheTime int64 `json:"external_auth_cache_time,omitempty"`
