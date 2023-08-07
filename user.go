@@ -247,6 +247,10 @@ type BaseUserFilters struct {
 	// Defines the default expiration for newly created shares as number of days.
 	// 0 means no expiration
 	DefaultSharesExpiration int `json:"default_shares_expiration,omitempty"`
+	// Defines the maximum sharing expiration as a number of days. If set, users
+	// must set an expiration for their shares and it must be less than or equal
+	// to this number of days. 0 means any expiration
+	MaxSharesExpiration int `json:"max_shares_expiration,omitempty"`
 	// The password expires after the defined number of days. 0 means no expiration
 	PasswordExpiration int `json:"password_expiration,omitempty"`
 	// PasswordStrength defines the minimum password strength.
