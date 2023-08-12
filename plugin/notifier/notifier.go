@@ -56,25 +56,26 @@ var PluginMap = map[string]plugin.Plugin{
 
 // FsEvent defines a file system event
 type FsEvent struct {
-	Action            string `json:"action"`
-	Username          string `json:"username"`
-	Path              string `json:"path"`
-	TargetPath        string `json:"target_path,omitempty"`
-	VirtualPath       string `json:"virtual_path"`
-	VirtualTargetPath string `json:"virtual_target_path,omitempty"`
-	SSHCmd            string `json:"ssh_cmd,omitempty"`
-	FileSize          int64  `json:"file_size,omitempty"`
-	FsProvider        int    `json:"fs_provider"`
-	Bucket            string `json:"bucket,omitempty"`
-	Endpoint          string `json:"endpoint,omitempty"`
-	Status            int    `json:"status"`
-	Protocol          string `json:"protocol"`
-	IP                string `json:"ip"`
-	SessionID         string `json:"session_id"`
-	Timestamp         int64  `json:"timestamp"`
-	OpenFlags         int    `json:"open_flags,omitempty"`
-	Role              string `json:"role,omitempty"`
-	Elapsed           int64  `json:"elapsed,omitempty"`
+	Action            string            `json:"action"`
+	Username          string            `json:"username"`
+	Path              string            `json:"path"`
+	TargetPath        string            `json:"target_path,omitempty"`
+	VirtualPath       string            `json:"virtual_path"`
+	VirtualTargetPath string            `json:"virtual_target_path,omitempty"`
+	SSHCmd            string            `json:"ssh_cmd,omitempty"`
+	FileSize          int64             `json:"file_size,omitempty"`
+	FsProvider        int               `json:"fs_provider"`
+	Bucket            string            `json:"bucket,omitempty"`
+	Endpoint          string            `json:"endpoint,omitempty"`
+	Status            int               `json:"status"`
+	Protocol          string            `json:"protocol"`
+	IP                string            `json:"ip"`
+	SessionID         string            `json:"session_id"`
+	Timestamp         int64             `json:"timestamp"`
+	OpenFlags         int               `json:"open_flags,omitempty"`
+	Role              string            `json:"role,omitempty"`
+	Elapsed           int64             `json:"elapsed,omitempty"`
+	Metadata          map[string]string `json:"metadata,omitempty"`
 }
 
 // ProviderEvent defines a provider event

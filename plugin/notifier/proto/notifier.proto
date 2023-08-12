@@ -25,6 +25,7 @@ message FsEvent {
     int32 open_flags = 17;
     string role = 18;
     int64 elapsed = 19;
+    map<string,string> metadata = 20;
 }
 
 message ProviderEvent {

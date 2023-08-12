@@ -57,6 +57,7 @@ func (c *GRPCClient) NotifyFsEvent(event *FsEvent) error {
 		OpenFlags:         int32(event.OpenFlags),
 		Role:              event.Role,
 		Elapsed:           event.Elapsed,
+		Metadata:          event.Metadata,
 	})
 
 	return err
@@ -126,6 +127,7 @@ func (s *GRPCServer) SendFsEvent(ctx context.Context, req *proto.FsEvent) (*empt
 		OpenFlags:         int(req.OpenFlags),
 		Role:              req.Role,
 		Elapsed:           req.Elapsed,
+		Metadata:          req.Metadata,
 	}
 	err := s.Impl.NotifyFsEvent(event)
 	return &emptypb.Empty{}, err
