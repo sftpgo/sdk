@@ -151,6 +151,11 @@ type BaseS3FsConfig struct {
 	// will use virtual hosted bucket addressing when possible
 	// (`http://BUCKET.s3.amazonaws.com/KEY`)
 	ForcePathStyle bool `json:"force_path_style,omitempty"`
+	// If enabled the S3 client accepts any TLS certificate presented by
+	// the server and any host name in that certificate.
+	// In this mode, TLS is susceptible to man-in-the-middle attacks.
+	// This should be used only for testing.
+	SkipTLSVerify bool `json:"skip_tls_verify,omitempty"`
 }
 
 // S3FsConfig defines the base configuration for S3 based filesystems
