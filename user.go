@@ -206,6 +206,9 @@ type BaseUserFilters struct {
 	// For FTP clients it must match the name provided using the
 	// "USER" command
 	TLSUsername TLSUsername `json:"tls_username,omitempty"`
+	// TLSCerts defines the allowed TLS certificates for mutual authentication.
+	// If provided will be checked before TLSUsername
+	TLSCerts []string `json:"tls_certs,omitempty"`
 	// user specific hook overrides
 	Hooks HooksFilter `json:"hooks,omitempty"`
 	// Disable checks for existence and automatic creation of home directory
