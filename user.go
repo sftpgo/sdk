@@ -182,6 +182,13 @@ func (l *BandwidthLimit) GetSourcesAsString() string {
 	return strings.Join(l.Sources, ",")
 }
 
+// TimePeriod defines a period of time
+type TimePeriod struct {
+	DayOfWeek int    `json:"day_of_week,omitempty"`
+	From      string `json:"from,omitempty"`
+	To        string `json:"to,omitempty"`
+}
+
 // BaseUserFilters defines additional restrictions for a user
 type BaseUserFilters struct {
 	// only clients connecting from these IP/Mask are allowed.
@@ -260,6 +267,8 @@ type BaseUserFilters struct {
 	// 0 means disabled, any password will be accepted. Values in the 50-70
 	// range are suggested for common use cases.
 	PasswordStrength int `json:"password_strength,omitempty"`
+	// AccessTime defines the time periods in which access is allowed
+	AccessTime []TimePeriod `json:"access_time,omitempty"`
 }
 
 // GetFlatFilePatterns returns file patterns as flat list
