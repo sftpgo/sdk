@@ -40,6 +40,7 @@ const (
 	LogEventTypeLoginNoUser
 	LogEventTypeNoLoginTried
 	LogEventTypeNotNegotiated
+	LogEventTypeLoginOK
 )
 
 // Handshake is a common handshake that is shared by plugin and host.
