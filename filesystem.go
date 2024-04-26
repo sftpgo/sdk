@@ -30,70 +30,9 @@ const (
 	HTTPFilesystemProvider                                // HTTP
 )
 
-// GetProviderByName returns the FilesystemProvider matching a given name
-// to provide backwards compatibility, numeric strings are accepted as well
-func GetProviderByName(name string) FilesystemProvider {
-	switch name {
-	case "0", "osfs":
-		return LocalFilesystemProvider
-	case "1", "s3fs":
-		return S3FilesystemProvider
-	case "2", "gcsfs":
-		return GCSFilesystemProvider
-	case "3", "azblobfs":
-		return AzureBlobFilesystemProvider
-	case "4", "cryptfs":
-		return CryptedFilesystemProvider
-	case "5", "sftpfs":
-		return SFTPFilesystemProvider
-	case "6", "httpfs":
-		return HTTPFilesystemProvider
-	}
-
-	// TODO think about returning an error value instead of silently defaulting to LocalFilesystemProvider
-	return LocalFilesystemProvider
-}
-
-// Name returns the Provider's unique name
-func (p FilesystemProvider) Name() string {
-	switch p {
-	case LocalFilesystemProvider:
-		return "osfs"
-	case S3FilesystemProvider:
-		return "s3fs"
-	case GCSFilesystemProvider:
-		return "gcsfs"
-	case AzureBlobFilesystemProvider:
-		return "azblobfs"
-	case CryptedFilesystemProvider:
-		return "cryptfs"
-	case SFTPFilesystemProvider:
-		return "sftpfs"
-	case HTTPFilesystemProvider:
-		return "httpfs"
-	}
-	return "" // let's not claim to be
-}
-
-// ShortInfo returns a human readable, short description for the given FilesystemProvider
-func (p FilesystemProvider) ShortInfo() string {
-	switch p {
-	case LocalFilesystemProvider:
-		return "Local"
-	case S3FilesystemProvider:
-		return "AWS S3 (Compatible)"
-	case GCSFilesystemProvider:
-		return "Google Cloud Storage"
-	case AzureBlobFilesystemProvider:
-		return "Azure Blob Storage"
-	case CryptedFilesystemProvider:
-		return "Local encrypted"
-	case SFTPFilesystemProvider:
-		return "SFTP"
-	case HTTPFilesystemProvider:
-		return "HTTP"
-	}
-	return ""
+// IsProviderSupported returns true if the specified provider is supported.
+func IsProviderSupported(provider FilesystemProvider) bool {
+	return provider >= LocalFilesystemProvider && provider <= HTTPFilesystemProvider
 }
 
 // OSFsConfig defines the configuration for local filesystem
