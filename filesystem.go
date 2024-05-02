@@ -56,7 +56,9 @@ type BaseS3FsConfig struct {
 	Region    string `json:"region,omitempty"`
 	AccessKey string `json:"access_key,omitempty"`
 	// IAM Role ARN to assume
-	RoleARN      string `json:"role_arn,omitempty"`
+	RoleARN string `json:"role_arn,omitempty"`
+	// Optional Session token that is a part of temporary security credentials provisioned by AWS STS.
+	SessionToken string `json:"session_token,omitempty"`
 	Endpoint     string `json:"endpoint,omitempty"`
 	StorageClass string `json:"storage_class,omitempty"`
 	// The canned ACL to apply to uploaded objects. Leave empty to use the default ACL.
