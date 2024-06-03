@@ -218,8 +218,9 @@ type BaseSFTPFsConfig struct {
 // SFTPFsConfig defines the configuration for SFTP based filesystem
 type SFTPFsConfig struct {
 	BaseSFTPFsConfig
-	Password   kms.BaseSecret `json:"password,omitempty"`
-	PrivateKey kms.BaseSecret `json:"private_key,omitempty"`
+	Password      kms.BaseSecret `json:"password,omitempty"`
+	PrivateKey    kms.BaseSecret `json:"private_key,omitempty"`
+	KeyPassphrase kms.BaseSecret `json:"key_passphrase,omitempty"`
 }
 
 // BaseHTTPFsConfig defines the base configuration for HTTP based filesystem
