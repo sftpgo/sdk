@@ -102,7 +102,8 @@ type BaseS3FsConfig struct {
 // S3FsConfig defines the base configuration for S3 based filesystems
 type S3FsConfig struct {
 	BaseS3FsConfig
-	AccessSecret kms.BaseSecret `json:"access_secret,omitempty"`
+	AccessSecret   kms.BaseSecret `json:"access_secret,omitempty"`
+	SSECustomerKey kms.BaseSecret `json:"sse_customer_key,omitempty"`
 }
 
 // BaseGCSFsConfig defines the base configuration for Google Cloud Storage based filesystems
