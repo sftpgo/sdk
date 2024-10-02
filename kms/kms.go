@@ -36,6 +36,8 @@ const (
 	SecretStatusVaultTransit SecretStatus = "VaultTransit"
 	// SecretStatusAzureKeyVault means we use Azure KeyVault to keep information secret
 	SecretStatusAzureKeyVault SecretStatus = "AzureKeyVault"
+	// SecretStatusOracleKeyVault means we use Oracle Key Vault to keep information secret
+	SecretStatusOracleKeyVault SecretStatus = "OracleKeyVault"
 	// SecretStatusRedacted means the secret is redacted
 	SecretStatusRedacted SecretStatus = "Redacted"
 )
@@ -45,12 +47,13 @@ type Scheme = string
 
 // supported URL schemes
 const (
-	SchemeLocal         Scheme = "local"
-	SchemeBuiltin       Scheme = "builtin"
-	SchemeAWS           Scheme = "awskms"
-	SchemeGCP           Scheme = "gcpkms"
-	SchemeVaultTransit  Scheme = "hashivault"
-	SchemeAzureKeyVault Scheme = "azurekeyvault"
+	SchemeLocal          Scheme = "local"
+	SchemeBuiltin        Scheme = "builtin"
+	SchemeAWS            Scheme = "awskms"
+	SchemeGCP            Scheme = "gcpkms"
+	SchemeVaultTransit   Scheme = "hashivault"
+	SchemeAzureKeyVault  Scheme = "azurekeyvault"
+	SchemeOracleKeyVault Scheme = "ocikeyvault"
 )
 
 // BaseSecret defines the base struct shared among all the secret providers
